@@ -45,7 +45,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
      strokeWidth: 2,        //The width of the stroke around each blob
      roundStrokes: false,   //If true the area and stroke will follow a round path (cardinal-closed)
      color: d3.scaleOrdinal(d3.schemeCategory10),   //Color function,
-     format: '.2%',
+     format: 'd',
      unit: '',
      legend: false
     };
@@ -138,7 +138,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
        .attr("dy", "0.4em")
        .style("font-size", "10px")
        .attr("fill", "#111111")
-       .text(d => range(1,11));
+       .text(d => Format(maxValue * d / cfg.levels) );
 
   
     //////////////////// Draw the axes //////////////////////
