@@ -1,9 +1,11 @@
 function CreateGlyph(data, gare1 ,gare2) {
+
 	if (gare1 || gare2) {
 		function dataPoint(d,stationSelected){
 			return [{
 						uic : gare1,
 						name : d.Nom_de_la_gare,
+						score : (+d.Proprete + +d.Securite + +d.Communication_perturbations + +d.Confort_d_attente + +d.Commerces_restauration + 10 - +d.MoyenneDistance * 10 / 16.8 + +d.score_pmr13*10/13 ) / 7,
 						axes : [
 							{indice : 'Proprete', value : +d.Proprete },
 							{indice : 'Securite', value : +d.Securite },
@@ -18,15 +20,15 @@ function CreateGlyph(data, gare1 ,gare2) {
 		
 		function radarChartOptions(colors){
 			return {
-				w: 200,
-				h: 260,
+				w: 180,
+				h: 240,
 				margin: margin,
 				maxValue: 10,
 				levels: 10,
 				roundStrokes: false,
 				color: d3.scaleOrdinal().range(colors),
 				format: '.1f',
-				legend: {title: 'Gare', translateX: -125, translateY: 15},
+				legend: {title: "Station's total score:", translateX: -100, translateY: 35},
 			};
 		};
 		
@@ -43,21 +45,21 @@ function CreateGlyph(data, gare1 ,gare2) {
 				if (d.Code_UIC == gare2){data2=dataPoint(d,gare2); };
 				dataset = data1.concat(data2);
 			});
-			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions(["blue","darkorange"]));
+			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions([couleur1,couleur2]));
 		};
 		
 		if (gare2 == null && gare1 !== null) { //if only the first station is selected
 			data.forEach(function(d){
 				if (d.Code_UIC == gare1){dataset=dataPoint(d,gare1); };
 			});
-			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions(["blue"]));
+			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions([couleur1]));
 		};
 		
 		if (gare1 == null && gare2 !== null) { //if only the second station is selected
 			data.forEach(function(d){
 				if (d.Code_UIC == gare2){dataset = dataPoint(d,gare2); };
 			});
-			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions(["darkorange"]));
+			let svg_radar1 = RadarChart("#radarChart", dataset, radarChartOptions([couleur2]));
 		};
 	}
 };

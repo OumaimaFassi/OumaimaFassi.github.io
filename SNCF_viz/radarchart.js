@@ -72,7 +72,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
     maxValue = max(cfg.maxValue, maxValue);
 
     //const allAxis = data[0].axes.map((i, j) => i.axis),   //Names of each axis
-  const allAxis = ["Propreté","Sécurité","Communication sur les perturbations","Confort d'attente","Commerces","Distance d'accès", "Assistance handicapés"] ;
+  const allAxis = ["Cleanliness","Security","Communication on disruptions","Waiting comfort","Shops","Distance of access", "Assistance to disabled"] ;
         total = allAxis.length,                 //The number of different axes
         radius = Math.min(cfg.w/2, cfg.h/2),    //Radius of the outermost circle
         Format = d3.format(cfg.format),             //Formatting
@@ -260,8 +260,16 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
                 .attr('x', this.cx.baseVal.value - 13)
                 .attr('y', this.cy.baseVal.value - 13)
                 .transition()
-                .style('display', 'block')
-                .text(Format(d.value) + cfg.unit);
+                .style('display', 'block');
+            if(d.value == 0){
+            tooltip.text("Missing value")
+          }
+            if (d.value !== 0){
+           tooltip.text(Format(d.value) + cfg.unit);
+        }})
+        .on("mouseout", function(){
+            tooltip.transition()
+                .style('display', 'none').text('');
         })
         .on("mouseout", function(){
             tooltip.transition()
@@ -280,7 +288,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
 
     if (cfg.legend !== false && typeof cfg.legend === "object") {
         let legendZone = svg.append('g');
-        let names = data.map(el => el.name);
+        let scores = data.map(el => Format(el.score));
         if (cfg.legend.title) {
             let title = legendZone.append("text")
                 .attr("class", "title")
@@ -288,7 +296,8 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
                 .attr("x", cfg.w - 70)
                 .attr("y", 10)
                 .attr("font-size", "12px")
-                .attr("fill", "#404040")
+                .attr("fill", "black")
+				.style("font-weight","bold")
                 .text(cfg.legend.title);
         }
         let legend = legendZone.append("g")
@@ -298,7 +307,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
             .attr('transform', `translate(${cfg.legend.translateX},${cfg.legend.translateY + 20})`);
         // Create rectangles markers
         legend.selectAll('rect')
-          .data(names)
+          .data(scores)
           .enter()
           .append("rect")
           .attr("x", cfg.w - 65)
@@ -308,13 +317,13 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
           .style("fill", (d,i) => cfg.color(i));
         // Create labels
         legend.selectAll('text')
-          .data(names)
+          .data(scores)
           .enter()
           .append("text")
           .attr("x", cfg.w - 52)
           .attr("y", (d,i) => i * 20 + 9)
           .attr("font-size", "11px")
-          .attr("fill", "#737373")
+          .attr("fill", "black")
           .text(d => d);
     }
     return svg;
