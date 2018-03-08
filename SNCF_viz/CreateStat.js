@@ -213,7 +213,7 @@ function refreshText(data,gare1,gare2){
   
 		d3.select("#valeur_variation")
 			
-			.text(mon_text1+d3.format(".0%")(d.Variations))
+			.text(mon_text1+d3.format(".1%")(d.Variations))
 			.attr("fill",couleur1);
 	  
 		d3.select("#nom1")
@@ -240,7 +240,7 @@ function refreshText(data,gare1,gare2){
   
 		d3.select("#valeur_variation2")
 			
-			.text(mon_text2+d3.format(".0%")(d.Variations))
+			.text(mon_text2+d3.format(".1%")(d.Variations))
 			.attr("fill",couleur2)
 	  
 		d3.select("#nom2")
@@ -556,12 +556,12 @@ function refreshMotif(mot1,mot2,gare1,gare2){
 			.text("Missing data for station #"+ chiffre)
 			.attr("x",0)
 			.attr("y",30)
-			.style("font-size",10)
+			.attr("font-size",10)
 			.style("font-style","italic")
 			.style("text-anchor","start")
     };
 	
-	var max_y = +d3.select("#motifSvg").attr("height")/2
+	var max_y = +d3.select("#motifSvg").attr("height")/1.5
   
 	var y_motif = d3.scaleLinear()
 		.range([max_y,0])
@@ -711,7 +711,7 @@ function refreshDiv(div1,div2,gare1,gare2){
 			.text("Missing data for station #"+ chiffre)
 			.attr("x",x_divertissements1)
 			.attr("y",y_divertissements+45)
-			.style("font-size",10)
+			.attr("font-size",10)
 			.style("font-style","italic")
 			.style("text-anchor","start")
     };
@@ -775,7 +775,7 @@ function refreshAcces(acc1,acc2,gare1,gare2){
 			.attr("class","debutphrase")
 			.attr("x",x_divertissements1)
 			.attr("y",y_acces+45)
-			.style("font-size",10)
+			.attr("font-size",10)
 			.style("font-style","italic")
 			.style("text-anchor","start")
     };

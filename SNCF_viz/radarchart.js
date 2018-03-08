@@ -286,6 +286,7 @@ const RadarChart = function RadarChart(parent_selector, data, options) {
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em");
 
+
     if (cfg.legend !== false && typeof cfg.legend === "object") {
         let legendZone = svg.append('g');
         let scores = data.map(el => Format(el.score));
